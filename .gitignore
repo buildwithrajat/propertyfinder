@@ -48,3 +48,9 @@ Desktop.ini
 .settings/
 .buildpath
 *.sass-cache
+
+# TestSprite
+testsprite-reports/
+testsprite.log
+testsprite.local.config.json
+.env.testsprite

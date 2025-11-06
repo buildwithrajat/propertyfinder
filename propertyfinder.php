@@ -149,15 +149,38 @@ class PropertyFinder {
     private function init() {
         try {
             $this->load_dependencies();
+            PropertyFinder_Logger::init();
+            
             $this->set_locale();
-            $this->init_cpt_and_taxonomies();
-            $this->init_importer();
-            $this->define_admin_hooks();
-            $this->define_public_hooks();
+            $this->init_components();
+            $this->init_hooks();
         } catch (Exception $e) {
             $this->log_error('Plugin initialization failed', $e);
             add_action('admin_notices', array($this, 'display_init_errors'));
         }
+    }
+
+    /**
+     * Initialize plugin components
+     */
+    private function init_components() {
+        new PropertyFinder_CPT();
+        new PropertyFinder_Importer();
+        new PropertyFinder_Agent_Importer();
+        new PropertyFinder_Webhook();
+        
+        if (function_exists('register_block_type')) {
+            new PropertyFinder_Blocks();
+        }
+    }
+
+    /**
+     * Initialize hooks
+     */
+    private function init_hooks() {
+        new PropertyFinder_Admin_Hooks();
+        new PropertyFinder_Frontend_Hooks();
+        new PropertyFinder_Webhook_Hooks();
     }
     
     /**
@@ -187,29 +210,31 @@ class PropertyFinder {
         }
     }
 
-    /**
-     * Initialize CPT and Taxonomies
-     */
-    private function init_cpt_and_taxonomies() {
-        new PropertyFinder_CPT();
-    }
-
-    /**
-     * Initialize Importer
-     */
-    private function init_importer() {
-        new PropertyFinder_Importer();
-    }
 
     /**
      * Load required dependencies
      */
     private function load_dependencies() {
         // Core includes
+        require_once PROPERTYFINDER_PLUGIN_DIR . 'includes/class-propertyfinder-logger.php';
+        require_once PROPERTYFINDER_PLUGIN_DIR . 'includes/config.php';
         require_once PROPERTYFINDER_PLUGIN_DIR . 'includes/class-propertyfinder-i18n.php';
         require_once PROPERTYFINDER_PLUGIN_DIR . 'includes/class-propertyfinder-api.php';
-        require_once PROPERTYFINDER_PLUGIN_DIR . 'includes/class-propertyfinder-cpt.php';
+        require_once PROPERTYFINDER_PLUGIN_DIR . 'includes/helpers.php';
+        
+        // CPT and Taxonomies
+        require_once PROPERTYFINDER_PLUGIN_DIR . 'includes/cpt/class-cpt-manager.php';
+        
+        // Importers
         require_once PROPERTYFINDER_PLUGIN_DIR . 'includes/class-propertyfinder-importer.php';
+        require_once PROPERTYFINDER_PLUGIN_DIR . 'includes/class-propertyfinder-agent-importer.php';
+        
+        // Webhook and Blocks
+        require_once PROPERTYFINDER_PLUGIN_DIR . 'includes/class-propertyfinder-webhook.php';
+        require_once PROPERTYFINDER_PLUGIN_DIR . 'includes/blocks/class-propertyfinder-blocks.php';
+        
+        // Metabox
+        require_once PROPERTYFINDER_PLUGIN_DIR . 'includes/metabox/class-metabox-manager.php';
         
         // Base classes
         require_once PROPERTYFINDER_PLUGIN_DIR . 'app/Models/BaseModel.php';
@@ -217,10 +242,16 @@ class PropertyFinder {
         
         // Models
         require_once PROPERTYFINDER_PLUGIN_DIR . 'app/Models/PropertyModel.php';
+        require_once PROPERTYFINDER_PLUGIN_DIR . 'app/Models/AgentModel.php';
         
         // Controllers
         require_once PROPERTYFINDER_PLUGIN_DIR . 'app/Controllers/AdminController.php';
         require_once PROPERTYFINDER_PLUGIN_DIR . 'app/Controllers/FrontendController.php';
+        
+        // Hook classes
+        require_once PROPERTYFINDER_PLUGIN_DIR . 'includes/class-admin-hooks.php';
+        require_once PROPERTYFINDER_PLUGIN_DIR . 'includes/class-frontend-hooks.php';
+        require_once PROPERTYFINDER_PLUGIN_DIR . 'includes/class-webhook-hooks.php';
     }
 
     /**
@@ -235,67 +266,6 @@ class PropertyFinder {
      * i18n instance
      */
     private $i18n;
-
-    /**
-     * Register all of the hooks related to the admin area
-     */
-    private function define_admin_hooks() {
-        if (!is_admin()) {
-            return;
-        }
-        
-        $admin_controller = new \PropertyFinder\Controllers\AdminController();
-        add_action('admin_menu', array($admin_controller, 'add_admin_menu'));
-        add_action('admin_enqueue_scripts', array($admin_controller, 'enqueue_admin_assets'));
-        add_action('admin_init', array($admin_controller, 'register_settings'));
-        
-        // Form submission handler - must be called early before any output
-        add_action('admin_init', array($admin_controller, 'handle_settings_form'), 1);
-        
-        add_action('admin_notices', array($admin_controller, 'show_admin_notices'));
-        
-        // AJAX handlers
-        add_action('wp_ajax_propertyfinder_sync', array($admin_controller, 'handle_sync_ajax'));
-        add_action('wp_ajax_propertyfinder_test_connection', array($admin_controller, 'handle_test_connection_ajax'));
-        add_action('wp_ajax_propertyfinder_import', array($admin_controller, 'handle_import_ajax'));
-        add_action('wp_ajax_propertyfinder_sync_all', array($admin_controller, 'handle_sync_all_ajax'));
-        
-        // Add CPT to admin menu
-        add_action('admin_menu', array($this, 'add_listings_to_menu'));
-    }
-
-    /**
-     * Add listings CPT to admin menu
-     */
-    public function add_listings_to_menu() {
-        global $submenu;
-        
-        if (isset($submenu['propertyfinder-settings'])) {
-            $submenu['propertyfinder-settings'][] = array(
-                __('All Listings', 'propertyfinder'),
-                'edit_posts',
-                'edit.php?post_type=pf_listing',
-                '',
-            );
-        }
-    }
-
-    /**
-     * Register all of the hooks related to the public area
-     */
-    private function define_public_hooks() {
-        $frontend_controller = new \PropertyFinder\Controllers\FrontendController();
-        
-        add_action('wp_enqueue_scripts', array($frontend_controller, 'enqueue_frontend_assets'));
-        
-        // Shortcodes
-        add_shortcode('propertyfinder_list', array($frontend_controller, 'shortcode_property_list'));
-        add_shortcode('propertyfinder_single', array($frontend_controller, 'shortcode_property_single'));
-        
-        // AJAX handlers
-        add_action('wp_ajax_propertyfinder_get_properties', array($frontend_controller, 'handle_get_properties'));
-        add_action('wp_ajax_nopriv_propertyfinder_get_properties', array($frontend_controller, 'handle_get_properties'));
-    }
 }
 
 /**

@@ -1,446 +1,787 @@
 /**
- * Full-width Modern Admin area styles
+ * PropertyFinder Admin Styles
  *
  * @package PropertyFinder
  */
 
-/* Global Styles */
-.propertyfinder-modern {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-    color: #1d2327;
-    max-width: 100%;
-    padding: 20px;
-    margin: 0;
+/* Toast Notification Styles */
+.propertyfinder-toast-container {
+    position: fixed;
+    top: 32px;
+    right: 20px;
+    z-index: 100000;
+    max-width: 400px;
 }
 
-.propertyfinder-modern h1, 
-.propertyfinder-modern h2, 
-.propertyfinder-modern h3 {
-    font-weight: 600;
+.propertyfinder-toast {
+    background: #fff;
+    border-left: 4px solid #2271b1;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    padding: 12px 16px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    animation: slideInRight 0.3s ease-out;
+    min-width: 300px;
+    max-width: 400px;
+}
+
+.propertyfinder-toast.success {
+    border-left-color: #00a32a;
+}
+
+.propertyfinder-toast.error {
+    border-left-color: #d63638;
+}
+
+.propertyfinder-toast.warning {
+    border-left-color: #dba617;
+}
+
+.propertyfinder-toast.info {
+    border-left-color: #2271b1;
+}
+
+.propertyfinder-toast-icon {
+    font-size: 20px;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.propertyfinder-toast.success .propertyfinder-toast-icon {
+    color: #00a32a;
+}
+
+.propertyfinder-toast.error .propertyfinder-toast-icon {
+    color: #d63638;
+}
+
+.propertyfinder-toast.warning .propertyfinder-toast-icon {
+    color: #dba617;
+}
+
+.propertyfinder-toast.info .propertyfinder-toast-icon {
+    color: #2271b1;
+}
+
+.propertyfinder-toast-content {
+    flex: 1;
+    line-height: 1.5;
+}
+
+.propertyfinder-toast-close {
+    background: none;
+    border: none;
+    color: #50575e;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    padding: 0;
+    margin-left: 12px;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.propertyfinder-toast-close:hover {
     color: #1d2327;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+.propertyfinder-toast.fade-out {
+    animation: slideOutRight 0.3s ease-out forwards;
+}
+
+/* Admin Styles */
+.propertyfinder-modern {
+    margin: 20px 20px 20px 0;
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .propertyfinder-modern h1 {
-    font-size: 28px;
-    font-weight: 700;
-    color: #2271b1;
-    margin: 0 0 20px 0;
-    padding: 15px 20px;
-    border-bottom: 2px solid #2271b1;
-    text-transform: capitalize;
-    background: #fff;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    position: relative;
-}
-
-.propertyfinder-modern h1:before {
-    content: "\f111";
-    font-family: dashicons;
-    font-size: 24px;
-    margin-right: 10px;
-    vertical-align: bottom;
-    color: #2271b1;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e1e1e1;
+    color: #1d2327;
+    font-weight: 600;
 }
 
 .propertyfinder-modern h2 {
-    font-size: 22px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding: 12px 0 8px 0;
+    border-bottom: 2px solid #e1e1e1;
+    font-size: 18px;
     font-weight: 600;
-    color: #135e96;
-    margin: 30px 0 15px 0;
-    padding: 12px 15px;
-    border-left: 4px solid #2271b1;
-    background: #f6f7f7;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    position: relative;
+    color: #23282d;
 }
 
 .propertyfinder-modern h2:before {
-    content: "\f112";
     font-family: dashicons;
-    font-size: 20px;
     margin-right: 10px;
-    vertical-align: bottom;
-    color: #135e96;
+    color: #2271b1;
+    transition: all 0.3s ease;
 }
 
-.propertyfinder-modern h3 {
-    font-size: 18px;
-    font-weight: 600;
-    color: #1d2327;
-    margin: 20px 0 10px 0;
-    padding: 10px 12px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    position: relative;
+.propertyfinder-modern h2:before {
+    content: "\f111"; /* dashicons-admin-generic */
 }
 
-.propertyfinder-modern h3:before {
-    content: "\f113";
-    font-family: dashicons;
-    font-size: 18px;
-    margin-right: 8px;
-    vertical-align: bottom;
-    color: #1d2327;
-}
-
-.propertyfinder-modern .wrap {
-    margin: 0;
-    padding: 0;
-    max-width: 100%;
-}
-
-.propertyfinder-modern .button {
-    border-radius: 4px;
-    padding: 8px 16px;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.propertyfinder-modern .button-primary {
-    background: #2271b1;
-    color: white;
-}
-
-.propertyfinder-modern .button-primary:hover {
-    background: #135e96;
-}
-
-.propertyfinder-modern .button-secondary {
-    background: #f6f7f7;
-    color: #1d2327;
-    border: 1px solid #dcdcde;
-}
-
-.propertyfinder-modern .button-secondary:hover {
-    background: #ffffff;
-    border-color: #b3b3b3;
+.propertyfinder-modern h2:hover:before {
+    transform: scale(1.2);
 }
 
 .propertyfinder-modern .form-table {
-    width: 100%;
-    border-collapse: collapse;
     background: #fff;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-top: 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     border-radius: 4px;
     overflow: hidden;
 }
 
 .propertyfinder-modern .form-table th {
-    font-weight: 600;
-    text-align: left;
-    padding: 16px 20px;
     width: 200px;
-    vertical-align: top;
-    background: #f6f7f7;
-    border-bottom: 1px solid #e0e0e0;
+    padding: 15px 10px 15px 0;
+    font-weight: 500;
+    color: #1d2327;
 }
 
 .propertyfinder-modern .form-table td {
-    padding: 16px 20px;
-    vertical-align: top;
-    border-bottom: 1px solid #f0f0f1;
+    padding: 15px 10px;
 }
 
-.propertyfinder-modern .form-table tr:last-child td,
-.propertyfinder-modern .form-table tr:last-child th {
-    border-bottom: none;
+.propertyfinder-modern .form-table tr:nth-child(even) {
+    background-color: #f9f9f9;
 }
 
-.propertyfinder-modern .regular-text,
-.propertyfinder-modern .small-text {
-    width: 100%;
-    max-width: 500px;
-    padding: 8px 12px;
-    border: 1px solid #dcdcde;
-    border-radius: 4px;
-    font-size: 14px;
-    line-height: 1.5;
-    background: #fff;
-    transition: border-color 0.1s ease-in-out, box-shadow 0.1s ease-in-out;
+.propertyfinder-modern .form-table tr:hover {
+    background-color: #f0f0f0;
 }
 
-.propertyfinder-modern .regular-text:focus,
-.propertyfinder-modern .small-text:focus {
-    border-color: #2271b1;
-    box-shadow: 0 0 0 1px #2271b1;
-    outline: 2px solid transparent;
-}
-
-.propertyfinder-modern .description {
-    font-size: 13px;
-    color: #646970;
-    margin-top: 4px;
-    line-height: 1.4;
-}
-
-.propertyfinder-modern .notice {
-    padding: 12px 16px;
-    border-radius: 4px;
-    margin: 16px 0;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-.propertyfinder-modern .notice-success {
-    background: #edfaef;
-    border: 1px solid #4ab866;
-}
-
-.propertyfinder-modern .notice-error {
-    background: #fcf0f1;
-    border: 1px solid #d63638;
-}
-
-.propertyfinder-modern .notice-info {
-    background: #f0f6fc;
-    border: 1px solid #2271b1;
-}
-
-/* Import Page Styles */
-.propertyfinder-import-page .propertyfinder-import-container {
-    background: #fff;
-    padding: 30px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
-    margin-top: 0;
-}
-
-.propertyfinder-import-actions {
-    margin-top: 24px;
-    padding-top: 24px;
-    border-top: 1px solid #e0e0e0;
-}
-
-.propertyfinder-import-progress {
-    margin-top: 24px;
-    background: #fff;
-    padding: 30px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
-    margin-top: 30px;
-}
-
-.propertyfinder-progress-bar {
-    width: 100%;
-    height: 20px;
-    background: #f0f0f1;
-    border-radius: 10px;
-    overflow: hidden;
-    margin: 12px 0;
-}
-
-.propertyfinder-progress-fill {
-    height: 100%;
-    background: #2271b1;
-    width: 0%;
-}
-
-.propertyfinder-progress-text,
-.propertyfinder-progress-details {
-    margin: 12px 0;
-    font-size: 14px;
-}
-
-.propertyfinder-import-results {
-    margin-top: 24px;
-    background: #fff;
-    padding: 30px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
-    margin-top: 30px;
-}
-
-.propertyfinder-results-content {
-    padding: 16px;
-    background: #f6f7f7;
-    border-radius: 4px;
-}
-
-/* Listings Page Styles */
-.propertyfinder-listings-stats {
-    background: #fff;
-    padding: 30px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
-    margin: 0;
-}
-
-.propertyfinder-listings-stats ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-}
-
-.propertyfinder-listings-stats li {
-    padding: 16px;
-    background: #f6f7f7;
-    border-radius: 4px;
-    border-left: 4px solid #2271b1;
-}
-
-.propertyfinder-listings-stats li strong {
-    display: block;
-    font-size: 24px;
-    color: #2271b1;
-}
-
-.propertyfinder-listings-table-container {
-    margin-top: 30px;
-    background: #fff;
-    padding: 30px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
-}
-
-.propertyfinder-modern table.wp-list-table {
-    border-radius: 4px;
-    box-shadow: none;
-    width: 100%;
-}
-
-.propertyfinder-modern table.wp-list-table th {
-    background: #f6f7f7;
-    font-weight: 600;
-}
-
-.propertyfinder-modern table.wp-list-table td, 
-.propertyfinder-modern table.wp-list-table th {
-    padding: 12px 16px;
-}
-
-.propertyfinder-modern .button-small {
-    padding: 4px 8px;
-    font-size: 13px;
-}
-
-/* Logs Page Styles */
-.propertyfinder-logs-info {
-    background: #fff;
-    padding: 30px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
-    margin: 0;
-}
-
-.propertyfinder-logs-actions {
-    margin: 30px 0;
-}
-
-.propertyfinder-modern pre {
-    background: #f6f7f7;
-    border-radius: 4px;
-    padding: 16px;
-    font-family: 'Consolas', 'Monaco', monospace;
-    font-size: 12px;
-    line-height: 1.4;
-    max-height: 500px;
-    overflow: auto;
-}
-
-/* Settings Page Styles */
-.propertyfinder-modern .form-table input[type="text"],
-.propertyfinder-modern .form-table input[type="password"],
-.propertyfinder-modern .form-table input[type="url"],
-.propertyfinder-modern .form-table select {
-    width: 100%;
-    max-width: 500px;
-}
-
-.propertyfinder-modern .submit {
-    padding-top: 24px;
-    margin-top: 24px;
-    border-top: 1px solid #e0e0e0;
-}
-
-/* Action buttons */
 .propertyfinder-actions {
-    background: #fff;
-    padding: 30px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    margin-top: 40px;
+    padding: 25px 20px 20px 20px;
+    border-top: 2px solid #2271b1;
+    background: #f0f6fc;
     border-radius: 4px;
-    margin: 30px 0 0 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
 
 .propertyfinder-actions h2 {
     margin-top: 0;
-    color: #d63638;
-    border-left-color: #d63638;
-}
-
-.propertyfinder-import-container h2 {
-    color: #4ab866;
-    border-left-color: #4ab866;
-}
-
-.propertyfinder-listings-stats h2 {
-    color: #ffb900;
-    border-left-color: #ffb900;
-}
-
-.propertyfinder-listings-table-container h2 {
-    color: #2271b1;
-    border-left-color: #2271b1;
-}
-
-.propertyfinder-import-progress h2 {
-    color: #4ab866;
-    border-left-color: #4ab866;
-}
-
-.propertyfinder-import-results h2 {
-    color: #2271b1;
-    border-left-color: #2271b1;
-}
-
-.propertyfinder-logs-info h2 {
-    color: #135e96;
-    border-left-color: #135e96;
-}
-
-.propertyfinder-modern h1:before {
-    content: "\f111";
-    font-family: dashicons;
-    font-size: 24px;
-    margin-right: 10px;
-    vertical-align: bottom;
-    color: #2271b1;
+    padding-top: 0;
+    color: #23282d;
+    font-weight: 600;
+    border-bottom: 2px solid #2271b1;
+    padding-bottom: 10px;
 }
 
 .propertyfinder-actions h2:before {
-    content: "\f116";
-    color: #d63638;
+    content: "\f111"; /* dashicons-admin-generic */
 }
 
-.propertyfinder-import-container h2:before {
-    content: "\f117";
-    color: #4ab866;
+/* Settings Section Styles */
+.propertyfinder-settings-section {
+    background: #f0f6fc;
+    padding: 20px;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    margin-bottom: 25px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
 }
 
-.propertyfinder-listings-stats h2:before {
-    content: "\f118";
-    color: #ffb900;
+.propertyfinder-settings-section:hover {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-color: #2271b1;
 }
 
-.propertyfinder-listings-table-container h2:before {
-    content: "\f119";
+.propertyfinder-settings-section h2 {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    border-bottom: 2px solid #2271b1 !important;
+    padding-bottom: 10px !important;
+    color: #23282d;
+    font-weight: 600;
+}
+
+.propertyfinder-settings-section h2:before {
+    content: "\f107"; /* dashicons-admin-tools */
+}
+
+.propertyfinder-settings-section .form-table {
+    background: transparent;
+    margin-top: 15px;
+}
+
+.propertyfinder-settings-section .propertyfinder-form-section {
+    margin-top: 15px;
+    background: transparent;
+}
+
+/* Webhook Section Styles */
+.propertyfinder-webhooks-section {
+    background: #f0f6fc;
+    padding: 20px;
+    border: 1px solid #c3c4c7;
+    border-radius: 4px;
+    margin-bottom: 25px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+    display: none !important; /* Hide webhook sections temporarily */
+}
+
+.propertyfinder-webhooks-section:hover {
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-color: #2271b1;
+}
+
+.propertyfinder-webhooks-section h2 {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    border-bottom: 2px solid #2271b1 !important;
+    padding-bottom: 10px !important;
+    color: #23282d;
+    font-weight: 600;
+}
+
+.propertyfinder-webhooks-section h2:before {
+    content: "\f108"; /* dashicons-admin-links */
+}
+
+.propertyfinder-webhooks-section .form-table {
+    background: transparent;
+    margin-top: 15px;
+}
+
+.propertyfinder-webhooks-section .propertyfinder-form-section {
+    margin-top: 15px;
+    background: transparent;
+}
+
+.propertyfinder-webhooks-section code {
+    background: #fff;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-family: 'Courier New', monospace;
+    word-break: break-all;
+    display: inline-block;
+    max-width: 100%;
+}
+
+/* Webhook List Styles */
+#webhooks-list {
+    margin-top: 15px;
+}
+
+#webhooks-list .wp-list-table {
+    margin-top: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+#webhooks-list .wp-list-table th {
+    font-weight: 600;
+    background: #f5f5f5;
+}
+
+#webhooks-list .wp-list-table td {
+    vertical-align: middle;
+}
+
+#webhooks-list .wp-list-table td code {
+    background: #f0f0f0;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+/* Button Improvements */
+.propertyfinder-modern .button {
+    margin-right: 8px;
+    margin-bottom: 5px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.propertyfinder-modern .button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.propertyfinder-modern .button .dashicons {
+    margin-top: 3px;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+.propertyfinder-modern .button-primary {
+    background: #2271b1;
+    border-color: #2271b1;
+    color: #fff;
+    text-shadow: none;
+}
+
+.propertyfinder-modern .button-primary:hover {
+    background: #135e96;
+    border-color: #135e96;
+    box-shadow: 0 2px 4px rgba(34, 113, 177, 0.2);
+}
+
+.propertyfinder-modern .button-secondary {
+    background: #f6f7f7;
+    border-color: #2271b1;
     color: #2271b1;
 }
 
-.propertyfinder-import-progress h2:before {
-    content: "\f117";
-    color: #4ab866;
-}
-
-.propertyfinder-import-results h2:before {
-    content: "\f119";
-    color: #2271b1;
-}
-
-.propertyfinder-logs-info h2:before {
-    content: "\f115";
+.propertyfinder-modern .button-secondary:hover {
+    background: #f0f0f1;
+    border-color: #135e96;
     color: #135e96;
+}
+
+/* Form Field Improvements */
+.propertyfinder-modern input[type="text"],
+.propertyfinder-modern input[type="url"],
+.propertyfinder-modern input[type="password"],
+.propertyfinder-modern input[type="time"],
+.propertyfinder-modern select {
+    padding: 8px 12px;
+    border: 1px solid #8c8f94;
+    border-radius: 4px;
+    font-size: 14px;
+    background: #fff;
+    transition: all 0.2s ease;
+    width: 100%;
+    max-width: 400px;
+}
+
+.propertyfinder-modern input[type="text"]:focus,
+.propertyfinder-modern input[type="url"]:focus,
+.propertyfinder-modern input[type="password"]:focus,
+.propertyfinder-modern input[type="time"]:focus,
+.propertyfinder-modern select:focus {
+    border-color: #2271b1;
+    box-shadow: 0 0 0 1px #2271b1;
+    outline: none;
+}
+
+.propertyfinder-modern textarea {
+    padding: 8px 12px;
+    border: 1px solid #8c8f94;
+    border-radius: 4px;
+    font-size: 14px;
+    background: #fff;
+    transition: all 0.2s ease;
+    width: 100%;
+    max-width: 600px;
+}
+
+.propertyfinder-modern textarea:focus {
+    border-color: #2271b1;
+    box-shadow: 0 0 0 1px #2271b1;
+    outline: none;
+}
+
+.propertyfinder-modern input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+.propertyfinder-modern label input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+/* Div-based Form Structure */
+.propertyfinder-form-section {
+    background: #fff;
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+.propertyfinder-form-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e1e1e1;
+    transition: background-color 0.2s ease;
+}
+
+.propertyfinder-form-row:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.propertyfinder-form-row:hover {
+    background-color: #f0f0f0;
+}
+
+.propertyfinder-form-row:last-child {
+    border-bottom: none;
+}
+
+.propertyfinder-form-label {
+    flex: 0 0 200px;
+    padding-right: 20px;
+    font-weight: 500;
+    color: #1d2327;
+    align-self: flex-start;
+    padding-top: 5px;
+}
+
+.propertyfinder-form-field {
+    flex: 1;
+    min-width: 300px;
+}
+
+.propertyfinder-form-field .description {
+    margin-top: 5px;
+    color: #646970;
+    font-style: italic;
+    font-size: 13px;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 782px) {
+    .propertyfinder-form-row {
+        flex-direction: column;
+        padding: 15px 10px;
+    }
+    
+    .propertyfinder-form-label {
+        flex: 0 0 auto;
+        padding-right: 0;
+        margin-bottom: 10px;
+        padding-top: 0;
+    }
+    
+    .propertyfinder-form-field {
+        flex: 1;
+        min-width: 100%;
+    }
+}
+
+/* Submit Button */
+.propertyfinder-modern .submit {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e1e1e1;
+    text-align: right;
+}
+
+.propertyfinder-modern .submit .button-primary {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    background: #2271b1;
+    border-color: #2271b1;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(34, 113, 177, 0.2);
+    transition: all 0.2s ease;
+}
+
+.propertyfinder-modern .submit .button-primary:hover {
+    background: #135e96;
+    border-color: #135e96;
+    box-shadow: 0 4px 8px rgba(34, 113, 177, 0.3);
+    transform: translateY(-2px);
+}
+
+/* Description text */
+.propertyfinder-modern .description {
+    color: #646970;
+    font-style: italic;
+    margin-top: 5px;
+    font-size: 13px;
+}
+
+/* Responsive Design */
+/* Loading Animation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive Design */
+@media screen and (max-width: 782px) {
+    .propertyfinder-modern .form-table th,
+    .propertyfinder-modern .form-table td {
+        display: block;
+        width: 100%;
+        padding: 10px 0;
+    }
+    
+    .propertyfinder-modern .form-table th {
+        font-weight: 600;
+        margin-bottom: 5px;
+    }
+    
+    .propertyfinder-webhooks-section {
+        padding: 15px;
+    }
+    
+    .propertyfinder-webhooks-section code {
+        min-width: 100%;
+        display: block;
+        margin-bottom: 10px;
+    }
+}
+
+/* Property Metabox Styles */
+.propertyfinder-metabox {
+    padding: 15px 0;
+}
+
+.propertyfinder-metabox-header {
+    border-bottom: 2px solid #e1e1e1;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.propertyfinder-sync-status {
+    font-size: 13px;
+}
+
+.propertyfinder-metabox-tabs {
+    margin-top: 20px;
+}
+
+.propertyfinder-tab-nav {
+    display: flex;
+    gap: 5px;
+    border-bottom: 2px solid #e1e1e1;
+    margin-bottom: 20px;
+}
+
+.propertyfinder-tab-btn {
+    padding: 10px 20px;
+    background: #f5f5f5;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-size: 14px;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+}
+
+.propertyfinder-tab-btn:hover {
+    background: #f0f0f0;
+}
+
+.propertyfinder-tab-btn.active {
+    background: #fff;
+    border-bottom-color: #2271b1;
+    color: #2271b1;
+    font-weight: 600;
+}
+
+.propertyfinder-tab-content {
+    display: none;
+}
+
+.propertyfinder-tab-content.active {
+    display: block;
+}
+
+.propertyfinder-metabox .form-table th {
+    width: 200px;
+    padding: 15px 10px 15px 0;
+}
+
+.propertyfinder-metabox .form-table td {
+    padding: 15px 10px;
+}
+
+/* JSON Modal Styles */
+#propertyfinder-json-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100000;
+}
+
+.propertyfinder-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.propertyfinder-modal-content {
+    position: relative;
+    background: #fff;
+    max-width: 90%;
+    max-height: 90%;
+    margin: 5% auto;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+.propertyfinder-modal-header {
+    padding: 20px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.propertyfinder-modal-header h3 {
+    margin: 0;
+}
+
+.propertyfinder-modal-close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #666;
+    line-height: 1;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+}
+
+.propertyfinder-modal-close:hover {
+    color: #000;
+}
+
+.propertyfinder-modal-body {
+    padding: 20px;
+    overflow: auto;
+    flex: 1;
+}
+
+#propertyfinder-json-content {
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+/* Agents Page Styles */
+.propertyfinder-agents-section {
+    background: #f9f9f9;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+/* WordPress Confirmation Modal */
+.propertyfinder-confirm-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100001;
+    display: none;
+}
+
+.propertyfinder-confirm-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+}
+
+.propertyfinder-confirm-dialog {
+    position: relative;
+    background: #fff;
+    width: 90%;
+    max-width: 500px;
+    margin: 10% auto;
+    border-radius: 4px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    z-index: 100002;
+}
+
+.propertyfinder-confirm-header {
+    padding: 20px 20px 15px;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.propertyfinder-confirm-header .dashicons {
+    color: #dba617;
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+}
+
+.propertyfinder-confirm-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1d2327;
+}
+
+.propertyfinder-confirm-body {
+    padding: 20px;
+}
+
+.propertyfinder-confirm-body p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #50575e;
+}
+
+.propertyfinder-confirm-footer {
+    padding: 15px 20px;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    background: #f6f7f7;
+}
+
+.propertyfinder-confirm-footer .button {
+    min-width: 80px;
 }

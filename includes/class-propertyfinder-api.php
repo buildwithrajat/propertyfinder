@@ -45,9 +45,9 @@ class PropertyFinder_API {
      * Constructor
      */
     public function __construct() {
-        $this->api_endpoint = get_option('propertyfinder_api_endpoint', 'https://atlas.propertyfinder.com/v1');
-        $this->api_key = get_option('propertyfinder_api_key', '');
-        $this->api_secret = get_option('propertyfinder_api_secret', '');
+        $this->api_endpoint = PropertyFinder_Config::get_api_endpoint();
+        $this->api_key = PropertyFinder_Config::get_api_key();
+        $this->api_secret = PropertyFinder_Config::get_api_secret();
     }
 
     /**
@@ -181,10 +181,38 @@ class PropertyFinder_API {
         if ($status_code === 429) {
             error_log('PropertyFinder: Rate limit exceeded for endpoint: ' . $url);
             do_action('propertyfinder_rate_limit_exceeded');
-            return false;
+            return array('error' => true, 'message' => __('Rate limit exceeded. Please try again later.', 'propertyfinder'));
         }
 
-        if ($status_code !== 200) {
+        // Handle 403 Forbidden errors specifically
+        if ($status_code === 403) {
+            $error_message = sprintf(
+                'API Request Forbidden (403) - Endpoint: %s, Response: %s',
+                $url,
+                $body
+            );
+            error_log('PropertyFinder: ' . $error_message);
+            do_action('propertyfinder_api_error', 'request_forbidden', $data);
+            
+            // Provide more specific error message for 403
+            $specific_message = __('Access forbidden. Your API key may not have permission to perform this action.', 'propertyfinder');
+            if (isset($data['message']) && !empty($data['message'])) {
+                $specific_message = $data['message'];
+            } elseif (isset($data['error']) && !empty($data['error'])) {
+                $specific_message = is_string($data['error']) ? $data['error'] : $specific_message;
+            }
+            
+            return array(
+                'error' => true,
+                'message' => $specific_message,
+                'status_code' => $status_code,
+                'response' => $data
+            );
+        }
+
+        // Accept 200, 201 (created) and 204 (no content) as success  
+        // Also check if data exists even with non-200 status (some APIs return data with error status)
+        if (!in_array($status_code, array(200, 201, 204)) && (empty($data) || !isset($data['data']))) {
             $error_message = sprintf(
                 'API Request Failed - Endpoint: %s, Status Code: %s, Response: %s',
                 $url,
@@ -193,10 +221,23 @@ class PropertyFinder_API {
             );
             error_log('PropertyFinder: ' . $error_message);
             do_action('propertyfinder_api_error', 'request_failed', $data);
-            return false;
+            
+            // Return error in consistent format
+            $error_data = array(
+                'error' => true,
+                'message' => isset($data['message']) ? $data['message'] : __('API request failed.', 'propertyfinder'),
+                'status_code' => $status_code,
+                'response' => $data
+            );
+            return $error_data;
         }
 
         error_log('PropertyFinder: API request successful - Endpoint: ' . $url . ', Status: ' . $status_code);
+
+        // For 204 No Content, return success indicator
+        if ($status_code === 204) {
+            return array('success' => true);
+        }
 
         // Allow filtering of API response
         return apply_filters('propertyfinder_api_response', $data, $endpoint);
@@ -319,10 +360,181 @@ class PropertyFinder_API {
     /**
      * Get available locations
      *
+     * @param array $params Query parameters
      * @return array|false Locations data or false on failure
      */
-    public function get_locations() {
-        return $this->request('/locations');
+    public function get_locations($params = array()) {
+        $default_params = array(
+            'page' => 1,
+            'perPage' => 100,
+        );
+
+        $params = apply_filters('propertyfinder_locations_params', array_merge($default_params, $params));
+
+        return $this->request('/locations', array(
+            'params' => $params,
+        ));
+    }
+
+    /**
+     * Get users/public profiles
+     *
+     * @param array $params Query parameters
+     * @return array|false Users data or false on failure
+     */
+    public function get_users($params = array()) {
+        $default_params = array(
+            'page' => 1,
+            'perPage' => 50,
+        );
+
+        $params = apply_filters('propertyfinder_users_params', array_merge($default_params, $params));
+
+        return $this->request('/users', array(
+            'params' => $params,
+        ));
+    }
+
+    /**
+     * Get single user/agent by ID
+     *
+     * @param string $user_id User ID
+     * @return array|false User data or false on failure
+     */
+    public function get_user($user_id) {
+        return $this->request('/users/' . $user_id);
+    }
+
+    /**
+     * Create user/agent via API
+     *
+     * @param array $data User data
+     * @return array|false Created user data or false on failure
+     */
+    public function create_user($data) {
+        $data = apply_filters('propertyfinder_user_create_data', $data);
+
+        return $this->request('/users', array(
+            'body' => $data,
+        ));
+    }
+
+    /**
+     * Update user/agent via API
+     *
+     * @param string $user_id User ID
+     * @param array $data User data
+     * @return array|false Updated user data or false on failure
+     */
+    public function update_user($user_id, $data) {
+        $data = apply_filters('propertyfinder_user_update_data', $data, $user_id);
+
+        $response = wp_remote_request($this->api_endpoint . '/users/' . $user_id, array(
+            'headers' => array(
+                'Authorization' => 'Bearer ' . $this->get_access_token(),
+                'Accept' => 'application/json',
+                'Content-Type' => 'application/json',
+            ),
+            'method' => 'PUT',
+            'body' => json_encode($data),
+            'timeout' => 30,
+        ));
+
+        if (is_wp_error($response)) {
+            return false;
+        }
+
+        $body = wp_remote_retrieve_body($response);
+        return json_decode($body, true);
+    }
+
+    /**
+     * Create webhook subscription
+     *
+     * @param string $event_id Event ID (e.g., 'listing.published')
+     * @param string $callback_url Callback URL
+     * @param string $secret Optional HMAC secret
+     * @return array|false Response data or false on failure
+     */
+    public function create_webhook($event_id, $callback_url, $secret = '') {
+        $body = array(
+            'eventId' => $event_id,
+            'callbackUrl' => $callback_url,
+        );
+
+        if (!empty($secret)) {
+            $body['secret'] = $secret;
+        } else {
+            // Use default webhook secret if available
+            $default_secret = get_option('propertyfinder_webhook_secret', '');
+            if (!empty($default_secret)) {
+                $body['secret'] = $default_secret;
+            }
+        }
+
+        // Log request details for debugging
+        error_log('PropertyFinder: Creating webhook - Event: ' . $event_id . ', URL: ' . $callback_url . ', Has Secret: ' . (isset($body['secret']) ? 'Yes' : 'No'));
+
+        $result = $this->request('/webhooks', array(
+            'method' => 'POST',
+            'body' => $body,
+        ));
+
+        // Log response for debugging
+        if (is_array($result) && isset($result['error']) && $result['error']) {
+            error_log('PropertyFinder: Webhook creation failed - Event: ' . $event_id . ', Status: ' . (isset($result['status_code']) ? $result['status_code'] : 'unknown') . ', Message: ' . (isset($result['message']) ? $result['message'] : 'No message'));
+            if (isset($result['status_code']) && $result['status_code'] === 403) {
+                error_log('PropertyFinder: 403 Forbidden - This usually means your API key does not have permission to create webhooks. Please check your API key permissions with PropertyFinder support.');
+            }
+        } else {
+            error_log('PropertyFinder: Webhook creation - Event: ' . $event_id . ', URL: ' . $callback_url . ', Result: ' . print_r($result, true));
+        }
+
+        return $result;
+    }
+
+    /**
+     * Get webhook subscriptions
+     *
+     * @param string $event_type Optional event type filter
+     * @return array|false Webhooks data or false on failure
+     */
+    public function get_webhooks($event_type = '') {
+        $params = array();
+        if (!empty($event_type)) {
+            $params['eventType'] = $event_type;
+        }
+
+        return $this->request('/webhooks', array(
+            'params' => $params,
+        ));
+    }
+
+    /**
+     * Delete webhook subscription
+     *
+     * @param string $event_id Event ID
+     * @return bool Success status
+     */
+    public function delete_webhook($event_id) {
+        $response = wp_remote_request(
+            $this->api_endpoint . '/webhooks/' . $event_id,
+            array(
+                'headers' => array(
+                    'Authorization' => 'Bearer ' . $this->get_access_token(),
+                    'Accept' => 'application/json',
+                ),
+                'method' => 'DELETE',
+                'timeout' => 30,
+            )
+        );
+
+        if (is_wp_error($response)) {
+            return false;
+        }
+
+        $status_code = wp_remote_retrieve_response_code($response);
+        return $status_code === 204 || $status_code === 200;
     }
 }
 

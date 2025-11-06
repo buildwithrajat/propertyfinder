@@ -1,0 +1,44 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "propertyfinder/single-agent",
+  "title": "Single Agent",
+  "category": "propertyfinder",
+  "icon": "admin-users",
+  "description": "Display a single agent profile with customizable metadata.",
+  "keywords": ["agent", "profile", "propertyfinder"],
+  "textdomain": "propertyfinder",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "supports": {
+    "html": false,
+    "align": ["wide", "full"]
+  },
+  "attributes": {
+    "agentId": {
+      "type": "number",
+      "default": 0
+    },
+    "showImage": {
+      "type": "boolean",
+      "default": true
+    },
+    "showBio": {
+      "type": "boolean",
+      "default": true
+    },
+    "showContact": {
+      "type": "boolean",
+      "default": true
+    },
+    "showSocial": {
+      "type": "boolean",
+      "default": true
+    },
+    "showCompliances": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}
+

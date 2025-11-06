@@ -1,0 +1,424 @@
+/**
+ * PropertyFinder Blocks Frontend Styles
+ * Combined styles for all blocks
+ */
+
+.propertyfinder-agent-listing-block {
+    margin: 40px 0;
+}
+
+.propertyfinder-agent-loader {
+    text-align: center;
+    padding: 40px;
+}
+
+.propertyfinder-agent-loader .spinner {
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #2271b1;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.propertyfinder-agent-grid {
+    display: grid;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.propertyfinder-agent-card {
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.propertyfinder-agent-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+}
+
+.propertyfinder-agent-card-image {
+    width: 100%;
+    height: 250px;
+    overflow: hidden;
+    background: #f0f0f0;
+}
+
+.propertyfinder-agent-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.propertyfinder-agent-card:hover .propertyfinder-agent-card-image img {
+    transform: scale(1.05);
+}
+
+.propertyfinder-agent-card-content {
+    padding: 20px;
+}
+
+.propertyfinder-agent-card-name {
+    margin: 0 0 10px 0;
+    font-size: 20px;
+    line-height: 1.4;
+}
+
+.propertyfinder-agent-card-name a {
+    color: #333;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.propertyfinder-agent-card-name a:hover {
+    color: #2271b1;
+}
+
+.propertyfinder-super-agent-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    background: #ffd700;
+    color: #333;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.propertyfinder-agent-card-position {
+    color: #666;
+    font-size: 14px;
+    margin: 5px 0;
+}
+
+.propertyfinder-agent-card-bio {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 15px 0;
+}
+
+.propertyfinder-agent-card-meta {
+    margin: 15px 0;
+}
+
+.propertyfinder-agent-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.propertyfinder-agent-meta-item .dashicons {
+    font-size: 18px;
+    color: #2271b1;
+    width: 18px;
+    height: 18px;
+}
+
+.propertyfinder-agent-meta-item a {
+    color: #555;
+    text-decoration: none;
+}
+
+.propertyfinder-agent-meta-item a:hover {
+    color: #2271b1;
+}
+
+.propertyfinder-agent-card-footer {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.propertyfinder-agent-view-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: #2271b1;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.propertyfinder-agent-view-btn:hover {
+    background: #135e96;
+    color: #fff;
+}
+
+.propertyfinder-agent-pagination {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.propertyfinder-agent-pagination .page-numbers {
+    display: inline-flex;
+    gap: 5px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.propertyfinder-agent-pagination .page-numbers li {
+    margin: 0;
+}
+
+.propertyfinder-agent-pagination .page-numbers a,
+.propertyfinder-agent-pagination .page-numbers span {
+    display: inline-block;
+    padding: 8px 12px;
+    background: #fff;
+    border: 1px solid #ddd;
+    color: #333;
+    text-decoration: none;
+    border-radius: 3px;
+    min-width: 40px;
+    text-align: center;
+}
+
+.propertyfinder-agent-pagination .page-numbers a:hover {
+    background: #2271b1;
+    color: #fff;
+    border-color: #2271b1;
+}
+
+.propertyfinder-agent-pagination .page-numbers .current {
+    background: #2271b1;
+    color: #fff;
+    border-color: #2271b1;
+}
+
+.propertyfinder-no-agents {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    background: #f9f9f9;
+    border-radius: 8px;
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-badge.status-active {
+    background: #d4edda;
+    color: #155724;
+}
+
+.status-badge.status-inactive {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Single Agent Block Styles */
+.propertyfinder-single-agent-block {
+    margin: 40px 0;
+}
+
+.propertyfinder-single-agent-content {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+}
+
+.propertyfinder-single-agent-image {
+    flex-shrink: 0;
+    width: 200px;
+}
+
+.propertyfinder-single-agent-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.propertyfinder-single-agent-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.propertyfinder-single-agent-name {
+    font-size: 32px;
+    margin: 0 0 10px 0;
+    color: #333;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.propertyfinder-single-agent-position {
+    font-size: 18px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.propertyfinder-verification-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    background: #d4edda;
+    color: #155724;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.propertyfinder-single-agent-bio {
+    margin: 20px 0;
+    line-height: 1.8;
+    color: #555;
+}
+
+.propertyfinder-single-agent-contact {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+.propertyfinder-contact-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: #2271b1;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.propertyfinder-contact-btn:hover {
+    background: #135e96;
+    color: #fff;
+}
+
+.propertyfinder-contact-btn.whatsapp {
+    background: #25D366;
+}
+
+.propertyfinder-contact-btn.whatsapp:hover {
+    background: #128C7E;
+}
+
+.propertyfinder-contact-btn.email {
+    background: #666;
+}
+
+.propertyfinder-contact-btn.email:hover {
+    background: #555;
+}
+
+.propertyfinder-single-agent-social {
+    margin: 20px 0;
+}
+
+.propertyfinder-social-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 15px;
+    background: #0077b5;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.propertyfinder-social-link:hover {
+    background: #005885;
+    color: #fff;
+}
+
+.propertyfinder-single-agent-compliances {
+    margin-top: 30px;
+}
+
+.propertyfinder-single-agent-compliances h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.propertyfinder-compliances-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.propertyfinder-compliances-table th,
+.propertyfinder-compliances-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.propertyfinder-compliances-table th {
+    background: #f5f5f5;
+    font-weight: 600;
+}
+
+.compliance-status {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.compliance-active {
+    background: #d4edda;
+    color: #155724;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .propertyfinder-agent-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .propertyfinder-single-agent-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .propertyfinder-single-agent-image {
+        margin: 0 auto;
+    }
+    
+    .propertyfinder-single-agent-contact {
+        justify-content: center;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .propertyfinder-agent-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}

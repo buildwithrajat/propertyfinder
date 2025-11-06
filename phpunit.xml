@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    bootstrap="tests/bootstrap.php"
+    backupGlobals="false"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    verbose="true"
+>
+    <testsuites>
+        <testsuite name="PropertyFinder">
+            <directory prefix="Test" suffix=".php">./tests</directory>
+        </testsuite>
+    </testsuites>
+    
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./includes</directory>
+            <directory suffix=".php">./app</directory>
+            <exclude>
+                <file>./tests</file>
+            </exclude>
+        </whitelist>
+    </filter>
+    
+    <php>
+        <const name="WP_TESTS_FORCE_KNOWN_BUGS" value="true"/>
+        <server name="WP_TESTS_DOMAIN" value="localhost"/>
+        <server name="WP_TESTS_EMAIL" value="admin@example.org"/>
+        <server name="WP_TESTS_TITLE" value="Test Blog"/>
+        <server name="WP_PHP_BINARY" value="php"/>
+    </php>
+</phpunit>
+

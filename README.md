@@ -101,6 +101,21 @@ propertyfinder/
 composer install
 ```
 
+## Testing
+
+This plugin uses two complementary testing approaches:
+
+1. **PHPUnit Tests** - Unit and integration tests
+   - See `tests/README.md` for setup and usage
+   - Run with: `phpunit`
+
+2. **TestSprite Tests** - AI-driven end-to-end testing
+   - See `testsprite-setup.md` for configuration
+   - Configure `testsprite.config.json` with your environment
+   - Provides automated browser testing, UI validation, and API testing
+
+Both testing frameworks work together to ensure comprehensive coverage of the plugin functionality.
+
 ## License
 
 GPL-2.0-or-later
