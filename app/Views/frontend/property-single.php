@@ -172,20 +172,7 @@ if (!$property):
             </div>
         </div>
 
-        <!-- Property Summary -->
-        <?php if (!empty($property->description_en) || !empty($property->content)): ?>
-        <div class="propertyfinder-single-summary">
-            <h2 class="propertyfinder-section-title"><?php _e('Property Summary', 'propertyfinder'); ?></h2>
-            <div class="propertyfinder-summary-content">
-                <?php 
-                $description = !empty($property->description_en) ? $property->description_en : $property->content;
-                echo wp_kses_post(wpautop($description)); 
-                ?>
-            </div>
-        </div>
-        <?php endif; ?>
-
-        <!-- Property Features -->
+                <!-- Property Features -->
         <div class="propertyfinder-single-features">
             <div class="propertyfinder-feature-item">
                 <?php if ($property->bedrooms > 0): ?>
@@ -210,6 +197,20 @@ if (!$property):
                 <?php endif; ?>
             </div>
         </div>
+
+        <!-- Property Summary -->
+        <?php if (!empty($property->description_en) || !empty($property->content)): ?>
+        <div class="propertyfinder-single-summary">
+            <h2 class="propertyfinder-section-title"><?php _e('Property Summary', 'propertyfinder'); ?></h2>
+            <div class="propertyfinder-summary-content">
+                <?php 
+                $description = !empty($property->description_en) ? $property->description_en : $property->content;
+                echo wp_kses_post(wpautop($description)); 
+                ?>
+            </div>
+        </div>
+        <?php endif; ?>
+
 
         <!-- Facilities -->
         <?php if (!empty($property->amenities)): ?>
@@ -299,10 +300,6 @@ if (!$property):
                                 </div>
                             <?php endif; ?>
                             <div class="propertyfinder-similar-content">
-                                <h3 class="propertyfinder-similar-title"><?php echo esc_html($similar['title']); ?></h3>
-                                <?php if (!empty($similar['location_name'])): ?>
-                                    <div class="propertyfinder-similar-location"><?php echo esc_html($similar['location_name']); ?></div>
-                                <?php endif; ?>
                                 <div class="propertyfinder-similar-features">
                                     <?php if ($similar['bedrooms'] > 0): ?>
                                         <span><?php echo esc_html($similar['bedrooms']); ?> <?php _e('Bed', 'propertyfinder'); ?></span>
@@ -314,6 +311,10 @@ if (!$property):
                                         <span><?php echo esc_html(number_format($similar['size'], 0)); ?> <?php _e('Sq. Ft.', 'propertyfinder'); ?></span>
                                     <?php endif; ?>
                                 </div>
+                                <h3 class="propertyfinder-similar-title"><?php echo esc_html($similar['title']); ?></h3>
+                                <?php if (!empty($similar['location_name'])): ?>
+                                    <div class="propertyfinder-similar-location"><?php echo esc_html($similar['location_name']); ?></div>
+                                <?php endif; ?>
                                 <?php if ($similar['price_amount'] > 0): ?>
                                     <div class="propertyfinder-similar-price">
                                         AED <?php echo esc_html(number_format($similar['price_amount'], 0)); ?>

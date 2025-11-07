@@ -16,8 +16,8 @@ include __DIR__ . '/settings/header.php';
 
 // Include sections
 include __DIR__ . '/settings/api-config.php';
-include __DIR__ . '/settings/scheduler.php';
 include __DIR__ . '/settings/logging.php';
+include __DIR__ . '/settings/scheduler.php';
 include __DIR__ . '/settings/actions.php';
 ?>
 
